@@ -19,4 +19,4 @@ scp -r precompute_graphs_for_analysis.sbatch timotej.knez@frida:/shared/home/tim
 rsync -av -r pipeline timotej.knez@frida:/shared/home/timotej.knez/llm-graph-construction
 rsync -av -r eval.sbatch timotej.knez@frida:/shared/home/timotej.knez/llm-graph-construction
 
-ssh frida "cd llm-graph-construction; sbatch --export=TP=[Thyme password] train_all.sbatch"
+ssh frida "cd llm-graph-construction; sbatch --export=TP=wPrvGig2JoZB9uqQuFh4Kk3dD train_all.sbatch"

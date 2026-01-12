@@ -29,11 +29,14 @@ def parse(response):
     response = re.sub("\]\s{0,3},?\s{0,3}\[", ";", response)
     response = re.sub("\n\d{0,4}\.?\s?", ";", response)
     response = response.replace("\"", "")
+    response = response.replace("'", "")
     response = response.replace("[[", "")
     response = response.replace("]]", "")
     triplets = response.split(";")
     for t in triplets:
-        parts = t.split(",")
+        parts = [p for p in t.split(",") if len(p.strip()) > 0]
+        if len(parts) > 3:
+            parts = [parts[0], " ".join(parts[1:-1]), parts[-1]]
         if len(parts) != 3:
             pass
         parts = [a.strip() for a in parts]

@@ -37,6 +37,11 @@ class DFDataset(Dataset):
     def graph_hash(self, graph):
         return hash((graph.text, graph.event1_start, graph.event1_end, graph.event2_start, graph.event2_end))
 
+    def number_of_relations(self):
+        if self.generated is not None:
+            return max(map(lambda x: x.y, self.generated)) + 1
+        return 0
+
     def split_generated(self):
         number_of_groups = max(map(lambda x: x.y, self.generated)) + 1
         groups = [[] for _ in range(number_of_groups)]

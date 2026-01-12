@@ -10,11 +10,10 @@
 #SBATCH --gpus-per-task=1
 #SBATCH -o eval.out
 
-CONTAINER_IMAGE_PATH=/shared/home/timotej.knez/containers/pytorch.sqfs
 cd "${HOME}/llm-graph-construction"
 
 srun \
   -A lpt -p frida \
-  --container-image /shared/home/timotej.knez/containers/pytorch.sqfs \
+  --container-image /shared/home/timotej.knez/containers/gold.sqfs \
   --container-mounts "$PWD":/workspace \
-  bash -c "python main.py --method eval_pipeline"
+  bash -c "pip uninstall -y evaluate; pip install evaluate wandb; python -m spacy download en_core_web_sm; bash start_with_ollama.sh --method eval_pipeline"

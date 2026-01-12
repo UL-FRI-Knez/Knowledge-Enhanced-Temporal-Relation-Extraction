@@ -12,7 +12,7 @@ from custom_datasets.knowledge_graph_dataset import get_llm_responses_only, gene
 from graph_building.local_graph.build_local_patient_graph import construct_graph_from_text_only
 from pipeline import pipeline
 from training import train_text_encoder, train_graph_encoder, train_combined_relation_encoder, \
-    train_and_evaluate_relation_extraction
+    train_and_evaluate_relation_extraction, train_and_evaluate_relation_detection_extraction
 from training.train_graph_encoder import hyper_parameter_search, train
 
 def prepare_llm_responses():
@@ -58,8 +58,15 @@ def precompute_graphs_for_analysis():
 
 
 if __name__ == '__main__':
+    import wandb
+    wandb.login(key="4627d8b8a181a377246f040719f6769bc68465fa")
+    import nltk
+    nltk.download('punkt_tab')
+
     parser = argparse.ArgumentParser(description="sample argument parser")
     parser.add_argument("--method", default="prepare_llm_responses")
+    parser.add_argument("--event_detector", default="bert")
+    parser.add_argument("--event_pairs", default="all")
     args = parser.parse_args()
     if args.method == "prepare_llm_responses":
         prepare_llm_responses()
@@ -78,4 +85,6 @@ if __name__ == '__main__':
     elif args.method == "eval":
         evaluation.evaluate_relation_prediction.eval()
     elif args.method == "eval_pipeline":
-        pipeline.run_pipeline()
+        pipeline.run_pipeline(args)
+    elif args.method == "train_relation_detection_and_prediction":
+        train_and_evaluate_relation_detection_extraction.train()

@@ -1,0 +1,29 @@
+CONTAINER_IMAGE_PATH=/shared/home/timotej.knez/containers/pytorch.sqfs
+srun -A lpt-phd -p dev --job-name="i2b2-dev" --container-image "$CONTAINER_IMAGE_PATH" --nodes=1 --ntasks=1 --cpus-per-task=8 --gpus-per-task=1 --time=08:00:00 --mem=128G --container-mounts "$PWD":/workspace --pty bash
+
+srun -A lpt-phd -p dev --job-name="i2b2-dev" --container-image "/shared/home/timotej.knez/containers/pytorch.sqfs" --nodes=1 --ntasks=1 --cpus-per-task=8 --gpus-per-task=1 --time=06:00:00 --mem=128G --container-mounts "/shared/home/timotej.knez":/workspace ./containers/jupyter
+
+pip install ipdb xeus-python notebook
+pip uninstall -q -y transformers
+pip uninstall -q -y accelerate
+pip install -q transformers==4.20.1 accelerate==0.11.0 cryptpandas nltk lightning==2.0.8
+curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb &&
+dpkg -i cloudflared.deb &&
+cloudflared service install eyJhIjoiNGNmZjY0ZjMwZTM4ODQ0MzQ1OTQwMTg4YzUzOTA3ZmEiLCJ0IjoiOGQ5MDQ3N2ItMWUzYi00YjU0LTkyMDUtNDk0ZjUzZmUzZGQwIiwicyI6IlpUTmhOalEyWlRrdE9ESmtaQzAwTldVNExXSmhNMlF0WkRjMU0yWTVOV0V4TURRdyJ9
+
+jupyter notebook --port 8083 --no-browser --NotebookApp.token=vwXckKNgxGR4U7EB --allow-root --NotebookApp.allow_origin=* --NotebookApp.ip='0.0.0.0'
+
+naslov: tunel-jupyter.knez.tk/tree?token=vwXckKNgxGR4U7EB
+
+
+
+Za llamo trenirati:
+pip install notebook
+pip uninstall -q -y transformers
+pip uninstall -q -y accelerate
+pip install -q transformers==4.20.1 accelerate==0.11.0 cryptpandas nltk lightning==2.0.8
+curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb &&
+dpkg -i cloudflared.deb &&
+cloudflared service install eyJhIjoiNGNmZjY0ZjMwZTM4ODQ0MzQ1OTQwMTg4YzUzOTA3ZmEiLCJ0IjoiOGQ5MDQ3N2ItMWUzYi00YjU0LTkyMDUtNDk0ZjUzZmUzZGQwIiwicyI6IlpUTmhOalEyWlRrdE9ESmtaQzAwTldVNExXSmhNMlF0WkRjMU0yWTVOV0V4TURRdyJ9
+
+jupyter notebook --port 8083 --no-browser --NotebookApp.token=vwXckKNgxGR4U7EB --allow-root --NotebookApp.allow_origin=* --NotebookApp.ip='0.0.0.0'

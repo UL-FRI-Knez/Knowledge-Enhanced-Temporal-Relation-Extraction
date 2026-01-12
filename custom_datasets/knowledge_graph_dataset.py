@@ -305,11 +305,15 @@ def create_knowledge_graph_dataset(dataframe, graph_generation_function, **kwarg
             if classification_graph is None:
                 return None
             # use convert row
+            event1_oroginal_position = (row["event1_start"], row["event1_end"], row["text"][row["event1_start"] : row["event1_end"]])
+            event2_oroginal_position = (row["event2_start"], row["event2_end"], row["text"][row["event2_start"] : row["event2_end"]])
             row = window_row_entity_bert(row)
             if row is None:
                 return None
             classification_graph["text"], classification_graph["event1_start"], classification_graph["event1_end"], classification_graph["event2_start"], classification_graph["event2_end"] \
                 = add_event_tokens(row["text"], row["event1_start"], row["event1_end"], row["event2_start"], row["event2_end"])
+            classification_graph["event1_oroginal_position"] = event1_oroginal_position
+            classification_graph["event2_oroginal_position"] = event2_oroginal_position
             if "graph_post_processing" in kwargs:
                 classification_graph = kwargs["graph_post_processing"](classification_graph, **kwargs)
             return classification_graph
